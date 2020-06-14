@@ -127,11 +127,11 @@ class form:
         self.message_listbox.select_set(0)
         self.message_listbox.grid(row=5, column=2, sticky='w', padx=0, rowspan=8)
 
-        self.send_button = tk.Button(self.command_frame, text='Send', width='20')
+        self.send_button = tk.Button(self.command_frame, text='Send', width='20', command=self.send)
         self.send_button.grid(row=5, column=3)
-        self.add_button = tk.Button(self.command_frame, text='Add', width='20')
+        self.add_button = tk.Button(self.command_frame, text='Add', width='20', command=self.add)
         self.add_button.grid(row=6, column=3)
-        self.del_button = tk.Button(self.command_frame, text='Delete', width=20)
+        self.del_button = tk.Button(self.command_frame, text='Delete', width=20, command=self.delete)
         self.del_button.grid(row=9, column=3)
 
         self.addcommand_label = tk.Label(self.command_frame, text='Command', width=20)
@@ -204,18 +204,6 @@ class form:
             self.disconnect()
         self.disconnect_button.bind('<Button-1>', click_disconnect)
 
-        def click_send(event):
-            self.send()
-        self.send_button.bind('<Button-1>', click_send)
-
-        def click_add(event):
-            self.add()
-        self.add_button.bind('<Button-1>', click_add)
-
-        def click_delete(event):
-            self.delete()
-        self.del_button.bind('<Button-1>', click_delete)
-
         def click_command(event):
             i = self.command_listbox.curselection()
             self.message_listbox.selection_clear(0, 'end')
@@ -266,10 +254,15 @@ class form:
         pass
 
     def add(self):
-        pass
+        s = self.addcommand_entry.get()
+        self.command_listbox.insert('end', s)
+        s = self.addmessage_entry.get()
+        self.message_listbox.insert('end', s)
 
     def delete(self):
-        pass
+        s = self.message_listbox.curselection()
+        self.message_listbox.delete(s)
+        self.command_listbox.delete('active')
 
     baudrates = [
         '110',
